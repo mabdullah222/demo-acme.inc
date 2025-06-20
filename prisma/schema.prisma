@@ -1,0 +1,78 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Biller {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  sales Sale[]
+}
+
+model Customer {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  contact String
+  sales   Sale[]
+}
+
+model Product {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  unitPrice   Float
+  saleItems   SaleItem[]
+  Inventory   Inventory?
+}
+
+model Inventory {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId   String   @unique @db.ObjectId
+  quantity    Int
+  lastUpdated DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Sale {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  saleDate    DateTime @default(now())
+  totalAmount Float
+  billerId    String  @db.ObjectId
+  customerId  String  @db.ObjectId
+  day Int?
+  month Int?
+  year Int?
+
+  biller    Biller     @relation(fields: [billerId], references: [id])
+  customer  Customer   @relation(fields: [customerId], references: [id])
+  saleItems SaleItem[]
+  receipt   Receipt?
+}
+
+model SaleItem {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  saleId    String  @db.ObjectId
+  productId String  @db.ObjectId
+  quantity  Int
+  unitPrice Float
+
+  sale    Sale    @relation(fields: [saleId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Receipt {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  saleId        String @unique @db.ObjectId
+  paymentMethod String
+  paidAmount    Float
+  createdAt     DateTime @default(now())
+
+  sale Sale @relation(fields: [saleId], references: [id])
+}
+
