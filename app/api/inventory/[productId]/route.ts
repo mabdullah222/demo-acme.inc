@@ -16,11 +16,10 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
 
 export async function GET(
   req: NextRequest,
-  context: { params: { productId: string } }
+  {params}: { params: { productId: string } }
 ) {
   try {
-    const { productId } = await context.params;
-    console.log(productId)
+    const { productId } = await params;
     const inventoryItem = await prisma.inventory.findUnique({
       where: { id: productId },
     });
