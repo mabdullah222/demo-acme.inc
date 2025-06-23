@@ -20,15 +20,15 @@ const Icon = ({ text, iconName, address }: IconProps) => {
     <Link
       href={address}
       className={`flex items-center space-x-3 px-3 py-2 rounded-md transition-colors group
-        ${isActive ? 'bg-zinc-200 dark:bg-zinc-700' : 'hover:bg-zinc-100 dark:hover:bg-zinc-800'}
+        ${isActive ? 'bg-zinc-700' : 'hover:bg-zinc-800'}
       `}
     >
       <FontAwesomeIcon
         size="sm"
         icon={iconName}
-        className={`text-zinc-500 ${isActive ? 'text-zinc-900 dark:text-white' : 'group-hover:text-zinc-700 dark:group-hover:text-zinc-300'}`}
+        className={`text-zinc-500 ${isActive ? 'text-white' : 'group-hover:text-zinc-300'}`}
       />
-      <p className={`text-sm font-medium ${isActive ? 'text-zinc-900 dark:text-white' : 'text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white'}`}>
+      <p className={`text-sm font-medium ${isActive ? 'text-white' : 'text-zinc-400 group-hover:text-white'}`}>
         {text}
       </p>
     </Link>
