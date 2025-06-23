@@ -20,7 +20,7 @@ type NavbarPropsType={
 
 const Navbar = ({drawer}:NavbarPropsType) => {
   return (
-    <div className={cn('p-4 pt-6 w-1/4 lg:w-1/5',drawer? "block h-full w-full":"hidden md:block dark:bg-[#000000] bg-gray-200")}>
+    <div className={cn('p-4 pt-6 w-1/4 lg:w-1/5',drawer? "block h-full w-full":"hidden md:block dark:bg-[#000000] bg-black")}>
       <div className='flex-col justify-center'>
           <div className='font-extrabold cursor-pointer dark:text-zinc-300 text-black'><Link href={'/'}>Acme.inc</Link></div>
       <Divider className='border-black' size='large'></Divider>
