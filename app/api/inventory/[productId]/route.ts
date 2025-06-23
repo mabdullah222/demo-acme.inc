@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export async function PATCH(req: NextRequest, { params }: { params: { productId: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ productId: string }>  }) {
+  const {productId} =await params;
   const { quantity } = (await req.json()) as { quantity?: number };
   if (quantity == null || quantity < 0) {
     return NextResponse.json({ error: 'quantity must be >= 0' }, { status: 400 });
   }
   const updated = await prisma.inventory.update({
-    where: { id: params.productId },
+    where: { id: productId },
     data: { quantity, lastUpdated: new Date() },
   });
   return NextResponse.json(updated);
@@ -16,7 +17,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { productId:
 
 export async function GET(
   req: NextRequest,
-  {params}: { params: { productId: string } }
+  { params }: { params: Promise<{ productId: string }>  }
 ) {
   try {
     const { productId } = await params;

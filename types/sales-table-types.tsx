@@ -2,6 +2,7 @@ import type { TableProps } from 'antd';
 
 export interface SalesType{
     key: string;
+    productId:string;
     saleDate: string;
     customerName: string;
     billerName: string;

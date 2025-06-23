@@ -5,7 +5,7 @@ import { SalesType } from "@/types/sales-table-types";
 export async function GET() {
   const sales = await prisma.sale.findMany({ include: { saleItems: true, receipt: true,biller:true ,customer:true} });
   const salesData: SalesType[]=sales.map((sale,index)=>{
-    return {key:`${index}`,saleDate:sale.saleDate.toLocaleString(),customerName:sale.customer.name,billerName:sale.biller.name,totalAmount:sale.totalAmount,paymentMethod:sale.receipt?.paymentMethod}
+    return {key:`${index}`,productId:"1",saleDate:sale.saleDate.toLocaleString(),customerName:sale.customer.name,billerName:sale.biller.name,totalAmount:sale.totalAmount,paymentMethod:sale.receipt?.paymentMethod}
   })
   return NextResponse.json(salesData);
 }
