@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// Helper maps
+
+
 const monthShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const dayShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -26,7 +27,6 @@ export async function GET(req: NextRequest) {
             { $sort: { _id: 1 } },
           ],
         });
-
         rawData = rawData.map((d:any)=> ({
           name: String(d._id),
           value: d.totalAmount,
@@ -57,7 +57,6 @@ export async function GET(req: NextRequest) {
           }
         ],
   });
-
   rawData = rawData.map((d: any) => ({
     name: monthShort[d._id - 1],
     value: d.totalAmount,
@@ -68,7 +67,7 @@ export async function GET(req: NextRequest) {
 
       case "Daily": {
         const today = new Date();
-        const currentDay = today.getDate();
+        const currentDay = today.getDay();
         const currentMonth = today.getMonth() + 1;
         const currentYear = today.getFullYear();
 
