@@ -51,7 +51,7 @@ const InventoryPage = () => {
     <div className="flex flex-col space-y-4 h-full">
       <p className="text-2xl font-extrabold text-zinc-700 self-center md:self-start mt-4">Products</p>
       <FloatButton tooltip={"Add a product"} icon={<PlusOutlined />} onClick={handleModalOpen} />
-      <ModalComponent open={isModalOpen} toggleOpen={handleModalOpen} title='Add a Product' productId='1' name='' unitPrice='' mutationFn={addProductMutation}></ModalComponent>
+      <ModalComponent open={isModalOpen} toggleOpen={handleModalOpen} title='Add a Product' imageUrl="" productId='1' name='' unitPrice='' mutationFn={addProductMutation}></ModalComponent>
 
       <div
         ref={scrollRef}
@@ -65,7 +65,7 @@ const InventoryPage = () => {
               <ProductCard
                 key={item.id}
                 productId={item.id}
-                image="/product-image.jpg"
+                imageUrl={item.imageUrl ||"/product-image.jpg"}
                 name={item.name}
                 unitPrice={item.unitPrice}
               />

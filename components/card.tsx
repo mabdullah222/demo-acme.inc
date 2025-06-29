@@ -11,7 +11,7 @@ import type { PopconfirmProps } from 'antd';
 
 type ProductCardProps = {
   productId:string
-  image: string;
+  imageUrl: string;
   name: string;
   unitPrice: number;
   onEdit?: () => void;
@@ -20,7 +20,7 @@ type ProductCardProps = {
 
 const ProductCard = ({
   productId,
-  image,
+  imageUrl,
   name,
   unitPrice,
   onEdit,
@@ -43,7 +43,7 @@ const ProductCard = ({
     >
       <div className="relative h-[180px]">
         <Image
-          src={image}
+          src={imageUrl}
           alt={name}
           fill
           className="object-fit"
@@ -87,7 +87,7 @@ const ProductCard = ({
         </div>
        
       </div>
-      <ModalComponent title='Update Product' mutationFn={updateProductMutation} productId={productId} open={open} toggleOpen={toggleOpen} name={name} unitPrice={unitPrice.toString()}></ModalComponent>
+      <ModalComponent title='Update Product' mutationFn={updateProductMutation} productId={productId} open={open} toggleOpen={toggleOpen} name={name} imageUrl={imageUrl} unitPrice={unitPrice.toString()}></ModalComponent>
     </div>
   );
 };

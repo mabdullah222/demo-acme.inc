@@ -8,13 +8,13 @@ export const getProducts = async (limit: number, cursor?: string | number) => {
   return data;
 };
 
-export const updateProduct= async (data:{productId:string,name:string,unitPrice:string})=>{
-  const res=await axios.patch(`/api/product/${data.productId}`,{name:data.name,unitPrice:parseFloat(data.unitPrice)})
+export const updateProduct= async (formData:FormData)=>{
+  const res=await axios.patch(`/api/product/${formData.get('productId')}`,formData,{headers:{'Content-Type':"multipart/form-data"}})
   return res.data
 }
 
-export const addProduct=async (data:{name:string,unitPrice:string})=>{
-  const res=await axios.post("/api/product",{name:data.name,unitPrice:parseFloat(data.unitPrice)})
+export const addProduct=async (formData:FormData)=>{
+  const res=await axios.post("/api/product",formData,{headers:{'Content-Type':"multipart/form-data"}})
   return res.data
 }
 

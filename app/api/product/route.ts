@@ -1,32 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import {prisma} from "@/lib/prisma"
+import { uploadFile } from "@/lib/uploadFile";
 
 
 export async function POST(req: NextRequest) {
-  const { name, unitPrice } = (await req.json()) as {
-    name?: string;
-    unitPrice?: number;
-  };
-
-  if (!name || unitPrice == null) {
-    return NextResponse.json(
-      { error: 'name and unitPrice are required' },
-      { status: 400 },
-    );
-  }
+  const data=await req.formData()
+  const imageUrl=await uploadFile(data.get('image') as File);
 
   const product = await prisma.product.create({
-    data: { name, unitPrice },
-  });
+    data: {
+      name:data.get('name') as string,
+      unitPrice:parseFloat(data.get('unitPrice') as string),
+      imageUrl:imageUrl,
+    },
+  })
 
   await prisma.inventory.create({
     data: {
       productId: product.id,
       quantity: 0,
     },
-  });
+  })
 
-  return NextResponse.json(product, { status: 201 });
+  return NextResponse.json(product, { status: 201 })
 }
 
 

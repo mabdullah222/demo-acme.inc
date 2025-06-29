@@ -1,4 +1,5 @@
 import { NextResponse,NextRequest } from "next/server";
+import { uploadFile } from "@/lib/uploadFile";
 import {prisma} from "@/lib/prisma"
 
 
@@ -14,11 +15,21 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }>  }) {
   const {id} =await params
-  const body = (await req.json()) as Partial<{ name: string; unitPrice: number }>;
+  const data : FormData = await req.formData()
+  const image=data.get('image') as File | null;
+  let body={}
+  if (image==null){
+    body={name:data.get('name'),unitPrice:parseFloat(data.get('unitPrice') as string)}
+  }else{
+    const imageUrl=await uploadFile(image)
+     body={name:data.get('name'),unitPrice:parseFloat(data.get('unitPrice') as string),imageUrl:imageUrl}
+  }
+
   const product = await prisma.product.update({
     where: { id: id },
     data: body,
   });
+
   return NextResponse.json(product);
 }
 
