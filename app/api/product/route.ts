@@ -31,7 +31,6 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const limit=parseInt(searchParams.get('limit') ?? '10')
   const cursor=searchParams.get('cursor')
-  console.log(cursor)
   const items=await prisma.product.findMany({
     include:{Inventory:true},
     take: limit + 1,
