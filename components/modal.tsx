@@ -17,7 +17,7 @@ type ModalPropsType = {
 type formDataStateType = {
   name: string
   unitPrice: string
-  file: File | null
+  file: File | string | null
   fileList: any[]
 }
 
@@ -55,7 +55,7 @@ const ModalComponent = ({
   const handleImageChange: UploadProps['onChange'] = ({ file, fileList }) => {
     setFormData((prev) => ({
       ...prev,
-      file: fileList[0].originFileObj || null,
+      file: fileList[0]?.originFileObj || null,
       fileList,
     }))
   }
@@ -79,18 +79,23 @@ const ModalComponent = ({
       message.error("Unit Price must be a positive number")
       return
     }
-
-    if (!formData.file) {
-      message.error("Please select an image file")
-      return
-    }
-
     const payload = new FormData()
     payload.append("productId", productId)
     payload.append("name", formData.name)
     payload.append("unitPrice", formData.unitPrice)
-    payload.append("image", formData.file)
 
+    if (!formData.file && title.split(' ')[0]=='Update') {
+        payload.append("image", imageUrl)
+        mutate(payload)
+        return
+    }
+
+    if (!formData.file){
+      message.error("Please select an image file")
+      return
+    }
+
+    payload.append("image", formData.file)
     mutate(payload)
   }
 

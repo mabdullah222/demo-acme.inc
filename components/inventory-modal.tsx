@@ -25,6 +25,10 @@ const InventoryModal = ({ inventoryId, open, toggleOpen }: InventoryModalProps) 
   }, [isSuccess, inventoryItem]);
 
   const handleOk = () => {
+    if (!value){
+      message.error("Quantity must be a number");
+      return
+    }
     mutate({quantity:value ?? 0,inventoryId:inventoryId},{onSuccess:()=>{
       message.success("Updated Successfully")
       toggleOpen();
